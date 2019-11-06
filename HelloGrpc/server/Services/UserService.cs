@@ -15,12 +15,28 @@ namespace HelloGrpc
             _logger = logger;
         }
 
-        public override Task<UserResponse> GetUserDetails(UserRequest request, ServerCallContext context)
-        {
-           return Task.FromResult(new UserResponse
-            {
-                FirstName = "Rajiv Popat"
-            });
-        }
+       public override async Task GetUserDetails(UserRequest request, 
+       IServerStreamWriter<UserResponse> responseStream, ServerCallContext context)
+       {
+           UserResponse user1 = new UserResponse();
+           user1.FirstName = "jitu";
+           user1.LastName = "pop";
+           user1.UserName = "jitu";
+           user1.Address = "NA";
+
+           UserResponse user2 = new UserResponse();
+           user2.FirstName = "hansa";
+           user2.LastName = "pop";
+           user2.UserName = "hansa_pop";
+           
+           List<UserResponse> users = new List<UserResponse>();
+           users.Add(user1);
+           users.Add(user2);
+
+           foreach(var user in users)
+           {
+                await responseStream.WriteAsync(user);
+           }
+       }
     }
 }
