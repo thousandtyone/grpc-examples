@@ -2,11 +2,11 @@ syntax = "proto3";
 
 option csharp_namespace = "HelloGrpc";
 
-package Greet;
+package HelloProto;
 
-// The greeting service definition.
+// A Service to Fetch UserInformation.
 service User {
-  // Sends a greeting
+  // Gets all the users from the database / bckend
   rpc GetUserDetails (UserRequest) returns (stream UserResponse);
 }
 
@@ -22,3 +22,6 @@ message UserResponse {
   string lastName = 3;
   string address = 4;
 }
+
+
+
