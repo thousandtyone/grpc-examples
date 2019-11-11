@@ -17,22 +17,18 @@ namespace GrpcClient
             httpClientHandler.ServerCertificateCustomValidationCallback = 
             HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             var httpClient = new HttpClient(httpClientHandler);
-
             var channel = GrpcChannel.ForAddress("https://localhost:5001",
             new GrpcChannelOptions { HttpClient = httpClient });
-
             var client =  new User.UserClient(channel);
-            
             try
             {
-                
                 UserRequest user = new UserRequest() { CompanyName = "SomeCompany "};
                 using (var call = client.GetUserDetails(user))
                 {
                     while (await call.ResponseStream.MoveNext(CancellationToken.None))
                     {
-                            var currentUser = call.ResponseStream.Current;
-                            Console.WriteLine(currentUser.FirstName + " " + currentUser.LastName);
+                        var currentUser = call.ResponseStream.Current;
+                        Console.WriteLine(currentUser.FirstName + " " + currentUser.LastName);
                     }
                 }
             }
@@ -40,7 +36,6 @@ namespace GrpcClient
             {
                 Console.WriteLine(e.Message);
             }
-           
             Console.WriteLine("Press any key to exit...");
             Console.ReadLine();
         }
